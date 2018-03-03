@@ -1,3 +1,6 @@
+# The RDKit paper
+
+
 # Overview and History
 
 The original development of the RDKit was done within the company Rational Discovery for use in their software tools and internal research programs. The toolkit was released as an open-source project managed by GL in 2006. Since becoming open source, development of the RDKit has continued, with regularly scheduled releases (currently twice a year) and contributions coming from the Novartis Institutes for Biomedical Research (NIBR) as well as other members of the continuously growing RDKit community.
@@ -16,30 +19,31 @@ Stats on code size, including comments and tests: ~245K lines of C++, ~100K line
 ## Basics
 
 The core data structures and algorithms of the RDKit are written in standard C++, making heavy use of C++'s Standard Template Library (STL) and the Boost libraries (https://www.boost.org). The use of C++ for the core gives us both performance and tremendous flexibility: it is straightforward to provide access to the functionality from other programming languages. As of this writing, the core RDKit is useable from the programming languages Python, Java, and C#. It can also be used from within the relational database PostgreSQL and the data-mining tool KNIME; these integrations will be discussed in more detail below. New algorithms are often prototyped and tested in Python, a very productive language, and then later moved into the C++ core. The extra work associated with the translation is normally justified both by performance gains and by the ability we gain to use the new functionality in other languages and systems.
-
-The RDKit code base is covered by extensive unit- and regression-tests. These tests provide a safety net of sorts when moving to a new system or compiler or when refactoring existing code. Use of the GitHub integrations with the Travis CI (https://travis-ci.org/) and Appveyor (https://www.appveyor.com/) services provides continuous integration support: each code change in GitHub triggers a re-build of the toolkit and the running of the tests. We expect the master version of the RDKit to always pass its tests and be useable (though not in a production setting), so these builds should always succeed and the tests should always pass.
+The RDKit code base is covered by extensive unit- and regression-tests. These tests provide a safety net of sorts when moving to a new system or compiler or when refactoring existing code. Use of the GitHub integrations with the Travis CI (https://travis-ci.org/) and Appveyor (https://www.appveyor.com/) services provides continuous integration support: each code change in GitHub triggers a re-build of the toolkit and the running of the tests. We expect the master version of the RDKit to always pass its tests and be useable (though not in a production setting), so these builds should always succeed and the tests should always pass. XXX coverage analysis?
 
 API documentation is provided using doxygen (http://doxygen.org) for the C++ and epydoc (http://epydoc.sourceforge.net/) for the python code. Additionally, the toolkit is distributed with an sizeable "getting started" guide for use from Python (http://rdkit.org/docs/GettingStartedInPython.html), a "theory manual" documenting things like the aromaticity model and extensions to standard file formats (http://rdkit.org/docs/RDKit_Book.html), and a "cookbook" providing recipes for accomplishing common tasks with the RDKit (http://rdkit.org/docs/Cookbook.html). The documentation is built using Python's excellent Sphinx system (http://www.sphinx-doc.org/) and the code samples in the documentation are part of the test suite. This helps prevent the "doc rot" problem that often afflicts software documentation where the documentation is not updated at the same time the code itself is.
 One feature that distinguishes the RDKit from most other cheminformatics toolkits is its strong emphasis on chemical correctness. By default, the molecule input functions apply a "sanitization" step to the molecules. Inputs that cannot be represented with electron octets on main-group elements are rejected with a sanitization error. This can, of course, be disabled, but the default behavior helps ensure that the molecules being used in further calculations are chemically reasonable.
 
 ## Releases
 
-A major version of the RDKit is released every six months: one release in March/April and the second in September/October. In between major releases bugfix versions are released about every month. These minor releases contain no new functionality and are provided to allow RDKit users to easily stay up to date with bug fixes without having to wait six months for a major release or take the risk of running non-released code.
+A major version of the RDKit is released every six months: one release in March/April and the second in September/October. In between major releases, bugfix versions are released about every month. These minor releases contain no new functionality and are provided to allow RDKit users to easily stay up to date with bug fixes without having to wait six months for a major release or take the risk of running non-released code.
+
+To make things easier for end users, we also produce binary releases of the RDKit. These are distributed using the conda package manager, part of the anaconda Python distribution (XXX cite). At the time of this writing (September 2017) for each RDKit release we provide binaries supporting Python versions 2.7, 3.5, and 3.6 for Linux, Windows (32 bit and 64 bit), and MacOS. Together with other scientific software packages, the RDKit will be deprecating support for Python 2.7 starting in 2018 with the goal of completely removing support for this unsupported legacy Python version by 2020. XXX check dates here.
+
+Packages to allow easy installation of the RDKit on major Linux distributions like Debian, Ubuntu, Fedora, CentOS, and RedHat Enterprise Linux are also provided by the RDKit community. Due to the nature of the Linux distributions, these tend to lag behind the primary RDKit version.
 
 ## Functionality overview
 
 The RDKit provides a very broad range of cheminformatics functionality. The documentation includes a comprehensive list, here we just provide a brief summary of functionality that is either particularly important or where the RDKit provides unique capabilities.
 
+- A broad selection of chemical fingerprints for chemical similarity and substructure screening.  Many of the fingerprints are available as both bit vectors or count vectors.
+- A collection of descriptors useful for building machine learning /QSAR models (xxx cite descriptors page).
+- A multi-molecule MCS implementation derived from the fmcs algorithm (xxx cite Andrew) that supports fuzzy MCS.
 - Support for chemical reactions, including applying reactions to generate virtual molecules, searching sets of reactions, and generating fingerprints for reactions. (XXX cite Nadine)
-- Conformation generation using a distance geometry algorithm that can optionally include information derived from experimental crystal structures. This has been shown to be quite effective at providing diverse conformations and reproducing crystal structures (XXX cite ETKDG paper and the Platinum paper).
+- Conformation generation using a distance geometry algorithm that can optionally include information derived from experimental crystal structures. This has been shown to be quite effective at providing diverse conformations and reproducing crystal structures (XXX cite ETKDG paper, the Platinum paper, and Paul Hawkins' review).
 - Force field optimization using UFF (XXX cite) or MMFF94/MMFF94S (XXX cite MMFF paper and Paolo's paper). The force field implementation includes an implementation of constraints.
--
-Just highlights
-- conformer generation with citations to JP, Sereina, and Johannes.
-- reactions
-- fingerprints
-- mcs
-- canonicalization?
+- Unsupervised molecule-molecule alignment using the Open3DAlign algorithm (xxx cite).
+- Integration with the Pandas library (XXX cite) for working with tabular data and Jupyter interactive notebook (XXX cite).  This integration enables the display of molecules and chemical reactions in Jupyter and substructure and similarity searching in Pandas data frames.
 
 ## Contrib
 
@@ -48,7 +52,7 @@ In order to provide an easy distribution mechanism for smaller projects from the
 ## KNIME nodes
 
 An RDKit sub-project provides a set of open-source nodes for the open-source KNIME Analytics Platform (http://www.knime.org). These nodes, developed as a collaboration between the Novartis Institutes for BioMedical Research and KNIME.com (XXX cite UGM presentation) provide a broad spectrum of chemical functionality for use in KNIME workflows. This includes descriptor calculation, substructure search/filtering, chemical reactions, conformation generation, maximum common substructure, etc. The RDKit nodes also take advantage of KNIME's extension point architecture to provide chemical aggregation options (MCS-based) in the "Group By" node, easy usage of RDKit molecules and reactions from within KNIME's Python integration, and access to the full capabilities  of the RDKit Java wrappers from within the "Java Snippet" nodes.
-The RDKit KNIME nodes are part of KNIME's "trusted community" nodes (XXX cite KNME community site) and are available as a default installation option with the KNIME distribution.
+The RDKit KNIME nodes are part of KNIME's "trusted community" extensions (XXX cite KNME community site) and are available as a default installation option with the KNIME distribution.
 The core RDKit library is also used to provide chemical functionality within other KNIME community projects, including the Vernalis nodes (XXX cite) and the Erlwood nodes (XXX cite).
 
 ## PostgreSQL cartridge
@@ -60,124 +64,51 @@ The RDKit provides "cartridge" functionality that adds chemical data types and o
 - JavaScript versions
 - use in commercial software?
 
-
-
-
 # The RDKit community
-- mailing list
-- LinkedIn group
-- user group meetings
-- contrib dir
-- use in other projects
-- tutorials
+The user and developer community around an open source toolkit is an integral part of its adoption and success.  Ways in which an open-source  community contributes include providing code, documentation, examples, support for other users, bug reports and feature requests, and advocacy. 
+
+The RDKIt community is linked electronically via:
+ - the mailing lists: 
+- the GitHub project: 
+- a LinkedIn group: 
+- the RDKit twitter account @RDKit_org
+- a Slack channel (invitation only due to the nature of Slack)
+
+In the real world, there are annual RDKit User Group Meetings (UGMs), 2017 marked the 6th UGM, and occasional informal gatherings such as MeetUps.
+
+# Use in other software
+The RDKit is primarily a toolkit, it is intended to provide cheminformatics functionality for use in other software. Because registration is not necessary to use the toolkit we don't have a complete picture of everywhere it is being used, but here are some recent examples we know of:
+
+## Open Source
+- mmpdb
+- CheTo
+- OCEAN
+- [ChEMBL Beaker](https://github.com/mnowotka/chembl_beaker) - standalone web server wrapper for RDKit and OSRA
+ - [myChEMBL](https://github.com/chembl/mychembl) ([blog post](http://chembl.blogspot.de/2013/10/chembl-virtual-machine-aka-mychembl.html), [paper](http://bioinformatics.oxfordjournals.org/content/early/2013/11/20/bioinformatics.btt666)) - A virtual machine implementation of open data and cheminformatics tools
+ - [ZINC](http://zinc15.docking.org) - Free database of commercially-available compounds for virtual screening
+- [Coot](https://www2.mrc-lmb.cam.ac.uk/personal/pemsley/coot/) - software for macromolecular model building, model completion and validation
+- [PYPL](http://www.biochemfusion.com/downloads/#OracleUtilities) - Simple cartridge that lets you call Python scripts from Oracle PL/SQL.
+- [shape-it-rdkit](https://github.com/jandom/shape-it-rdkit) - Gaussian molecular overlap code shape-it (from silicos it) ported to RDKit backend
+- [WONKA](http://wonka.sgc.ox.ac.uk/WONKA/) - Tool for analysis and interrogation of protein-ligand crystal structures
+- [OOMMPPAA](http://oommppaa.sgc.ox.ac.uk/OOMMPPAA/) - Tool for directed synthesis and data analysis based8 on protein-ligand crystal structures
+- [OCEAN](https://github.com/rdkit/OCEAN) - web-tool for target-prediction of chemical structures which uses ChEMBL as datasource
+- [DeepChem](http://deepchem.io/) - deep learning toolkit for drug discovery
+- [RRDKit](https://github.com/pauca/RRDKit) - RDKit integration for R
+- [chemfp](http://chemfp.com)
+- [rdkit_ipynb_tools](https://github.com/apahl/rdkit_ipynb_tools) - RDKit Tools for the jupyter Notebook
+- [chemicalite](https://github.com/rvianello/chemicalite) - SQLite integration for the RDKit
+- [django-rdkit](https://github.com/rdkit/django-rdkit)
+
+## Closed Source/Commercial
+to be added?
 
 # Support
 
 Aside from the usual "use your favorite search engine to find a solution/answer" the primary support mechanisms for the RDKit asking questions on either one of the mailing lists or using the GitHub issue tracker. The RDKit community is both friendly and responsive and most questions are answered within a few days. For groups where this isn't sufficient or who would like to be able to get support in a non-public forum, commercial support contracts are offered by T5 Informatics GmbH (http://www.t5informatics.com).
 
-# Editorial comment to users of open-source software
+# polite request to users of open-source software
 
-Don't forget to let the authors and community of the software you use know that you are using it. Feedback from users is good for motivation and can help authors justify ongoing contributions. This may take the form of a citation in a paper, a post to a mailing list, or maybe just a personal email if the others don't work.
-The database cartridge
-
-Knime integration
-	• Functionality
-
-		• 2d
-
-			• Supported formats for I/o
-			• Vf2 for substructure
-			• Transformations
-			• Reaction handling
-			• Chirality
-			• Inchi integration
-			• Depiction and constrained depiction 
-			•
-		• 3d
-
-			• Distance-geometry based conformation generation
-			• Uff implementation
-			• MMFF94/s implementation
-			• Constrained conformation generation
-			• Cite JP's paper on performance
-			• Rigid alignment to minimize rmsd
-			• Shape scoring based on volume overlap
-			•
-		• Descriptors
-
-			• Table with citations
-		• Fingerprints
-
-			• Morgan algorithm and similarities to the ECFP and FCFP
-			• MACCS public keys
-			• Atom pairs and topological torsions
-			• Topological: rdkit, layered, layered2
-			• Electro topological state (python only)
-			• Most fingerprinters take optional atom invariants and/or allow limiting the atoms that contribute
-			• Avalon Fp integration
-		• Learning
-
-			• Hierarchical clustering (include algorithms)
-			• Bagged decision trees / random forests with truncated trees and tricks for handling unbalanced datasets
-		• Misc
-
-			• Information theory
-			• Diversity picking
-			•
-		• Knime nodes
-
-			• Molecule input and output
-			• Substructure search, tagging, and highlighting
-			• Fingerprinting
-			• Descriptors
-			• Diversity picking
-			• Fragmentation
-			• R group decomposition
-			• Coordinate generation, 2d and 3d
-			•
-		• The cartridge
-
-			• Molecule and fingerprint types
-			• Index integration for fast substructure and similarity search
-			• Descriptors
-			• Inchi and inchi keys
-	• Details
-
-		• Code
-
-			• Useage of boost
-			• Lots of testing
-			• Favor implementation in C++ because of the write once -  use everywhere benefit
-		• Documentation
-
-			• API docs for python and C++
-			• Getting started in python doc
-			• Cookbook
-			• Cartridge overview
-		• Web presence
-
-			• Rdkit.org
-
-				• Links to other sites
-				• Documentation
-				• Additional documents
-		•
-	• Community 
-
-		• Contrib dir : place to collect small, self-containd contributions that are useful to the broader community. For example implementations of things from papers.
-		• Contributions to core
-
-			• MCS
-			• MACCS keys and mdlvalence.h
-		• Mailing lists
-		• UGM
-		• Other things out there:
-
-			• Cinfony from Noel O'Boyle
-			• Bisquit from the Dutch guys
-			• USRCAT and the other thing from Adrian S.
-			• Chemfp
-			• AZ Orange
+Whenever possible please try to let the authors and community of the open-source software you use know that you are using it. Feedback from users is good for motivation and can help authors justify ongoing contributions. This may take the form of a citation in a paper, a post to a mailing list, or maybe just a personal email if the others don't work.
 
 # Copyright
 Copyright (C) 2017 Greg Landrum
