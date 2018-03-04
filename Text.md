@@ -53,7 +53,7 @@ In order to provide an easy distribution mechanism for smaller projects from the
 
 ## KNIME nodes
 
-An RDKit sub-project provides a set of open-source nodes for the open-source KNIME Analytics Platform (http://www.knime.org). These nodes, developed as a collaboration between the Novartis Institutes for BioMedical Research and KNIME.com (https://files.knime.com/sites/default/files/inline-images/01_greg_landrum.pdf) provide a broad spectrum of chemical functionality for use in KNIME workflows. This includes descriptor calculation, substructure search/filtering, chemical reactions, conformation generation, maximum common substructure, etc. The RDKit nodes also take advantage of KNIME's extension point architecture to provide chemical aggregation options (MCS-based) in the "Group By" node, easy usage of RDKit molecules and reactions from within KNIME's Python integration, and access to the full capabilities  of the RDKit Java wrappers from within the "Java Snippet" nodes.
+An RDKit sub-project provides a set of open-source nodes for the open-source KNIME Analytics Platform (http://www.knime.org). These nodes, developed as a collaboration between the Novartis Institutes for BioMedical Research and KNIME.com (https://files.knime.com/sites/default/files/inline-images/01_greg_landrum.pdf) provide a broad spectrum of chemical functionality for use in KNIME workflows. This includes descriptor calculation, substructure search/filtering, chemical reactions, conformation generation, maximum common substructure, etc. The RDKit nodes also take advantage of KNIME's extension point architecture to provide chemical aggregation options (MCS-based) in the "Group By" node, easy usage of RDKit molecules and reactions from within KNIME's Python integration, and access to the full capabilities of the RDKit Java wrappers from within the "Java Snippet" nodes.
 The RDKit KNIME nodes are part of KNIME's "trusted community" extensions (https://www.knime.com/trusted-community-contributions) and are available as a default installation option with the KNIME distribution.
 The core RDKit library is also used to provide chemical functionality within other KNIME community projects, including the Vernalis nodes (https://www.knime.com/book/vernalis-nodes-for-knime-trusted-extension), the Erlwood nodes (https://www.knime.com/community/erlwood), and the 3D-E-Chem nodes (https://www.knime.com/3d-e-chem-nodes-for-knime https://pubs.acs.org/doi/abs/10.1021/acs.jcim.6b00686)
 
@@ -72,7 +72,7 @@ The RDKit community is linked electronically via:
 - the RDKit twitter account @RDKit_org
 - a Slack channel (invitation only due to the nature of Slack)
 
-In the real world, there are annual RDKit User Group Meetings (UGMs), 2017 marked the 6th UGM, and occasional informal gatherings such as MeetUps.
+In the real world there are occasional informal gatherings, such as MeetUps, and annual RDKit User Group Meetings (UGMs) - 2017 marked the 6th UGM.
 
 # Use in other software
 The RDKit is primarily a toolkit, it is intended to provide cheminformatics functionality for use in other software. Because registration is not necessary to use the toolkit we don't have a complete picture of everywhere it is being used, but here are some recent examples we know of:
