@@ -78,7 +78,8 @@ In the real world there are occasional informal gatherings, such as MeetUps, and
 The RDKit is primarily a toolkit, it is intended to provide cheminformatics functionality for use in other software. Because registration is not necessary to use the toolkit we don't have a complete picture of everywhere it is being used, but here are some recent examples we know of:
 
 ## Open Source
-- [Samson Connect](https://www.samson-connect.net) - Software for adaptive modeling and simulatin of nanosystems
+- [Samson Connect](https://www.samson-connect.net) - Software for adaptive modeling and simulation of nanosystems
+- [mol_frame](https://github.com/apahl/mol_frame) - Chemical Structure Handling for Dask and Pandas DataFrames
 - [RDKitjs](https://github.com/cheminfo/RDKitjs) - port of RDKit functionality to JavaScript
 - [DeepChem](https://deepchem.io) - python library for deep learning for chemistry
 - [mmpdb](https://github.com/rdkit/mmpdb) - Matched molecular pair database generation and analysis
